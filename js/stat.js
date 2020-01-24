@@ -9,19 +9,20 @@ var FONT_GAP = 20;
 var TEXT_HEIGHT = 30;
 var BAR_WIDTH = 40;
 var BAR_INTERVAL = 50;
-var barHeight = 150;
+var BAR_MAX_HEIGHT = 150;
+var MY_NAME = "Вы";
 
 var renderCloud = function(ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-var getMaxElement = function(arr) {
-  if (arr.length > 0) {
-    var maxElement = arr[0];
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i] > maxElement) {
-        maxElement = arr[i];
+var getMaxElement = function(elements) {
+  if (elements.length > 0) {
+    var maxElement = elements[0];
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i] > maxElement) {
+        maxElement = elements[i];
       }
     }
     return maxElement;
@@ -36,10 +37,21 @@ window.renderStatistics = function(ctx, names, times) {
 
   this.console.log(times);
 
+  ctx.fillStyle = "#000";
+  ctx.font = "16px PT Mono";
+  ctx.textBaseline = "hanging";
+
+  ctx.fillText("Ура вы победили!", CLOUD_X + FONT_GAP, CLOUD_Y + GAP);
+  ctx.fillText(
+    "Список результатов:",
+    CLOUD_X + FONT_GAP,
+    CLOUD_Y + GAP + FONT_GAP
+  );
+
   for (var i = 0; i < names.length; i++) {
-    var barLength = (barHeight * times[i]) / maxTime;
+    var barLength = (BAR_MAX_HEIGHT * times[i]) / maxTime;
     ctx.fillStyle =
-      names[i] == "Вы"
+      names[i] == MY_NAME
         ? "rgba(255, 0, 0, 1)"
         : "hsl(240," + Math.random() * 100 + "%, 50%)";
     ctx.fillRect(
@@ -50,15 +62,6 @@ window.renderStatistics = function(ctx, names, times) {
     );
 
     ctx.fillStyle = "#000";
-    ctx.font = "16px PT Mono";
-    ctx.textBaseline = "hanging";
-
-    ctx.fillText("Ура вы победили!", CLOUD_X + FONT_GAP, CLOUD_Y + GAP);
-    ctx.fillText(
-      "Список результатов:",
-      CLOUD_X + FONT_GAP,
-      CLOUD_Y + GAP + FONT_GAP
-    );
 
     ctx.fillText(
       names[i],
