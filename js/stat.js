@@ -18,14 +18,16 @@ var renderCloud = function (ctx, x, y, color) {
 };
 
 var getMaxElement = function (elements) {
+  var maxElement = 0;
   if (elements.length > 0) {
-    var maxElement = elements[0];
+    maxElement = elements[0];
     for (var i = 0; i < elements.length; i++) {
       if (elements[i] > maxElement) {
         maxElement = elements[i];
       }
     }
   }
+  return maxElement;
 };
 
 window.renderStatistics = function (ctx, names, times) {
@@ -33,8 +35,6 @@ window.renderStatistics = function (ctx, names, times) {
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#ffffff');
 
   var maxTime = getMaxElement(times);
-
-  this.console.log(times);
 
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
