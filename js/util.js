@@ -10,7 +10,15 @@
     return elements[getRandomRange(0, elements.length)];
   };
 
+  var eraseError = function () {
+    var error = document.querySelector('.error');
+    if (error) {
+      error.parentNode.removeChild(error);
+    }
+  };
+
   window.util = {
-    getRandomElement: getRandomElement
+    getRandomElement: getRandomElement,
+    eraseError: eraseError
   };
 })();

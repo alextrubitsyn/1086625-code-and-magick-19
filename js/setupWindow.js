@@ -4,45 +4,34 @@
 (function () {
 
   var setupUser = document.querySelector('.setup');
+  var form = setupUser.querySelector('.setup-wizard-form');
   var setupUserOpen = document.querySelector('.setup-open');
   var setupUserClose = setupUser.querySelector('.setup-close');
-  var setupInputUserName = setupUser.querySelector('.setup-user-name');
-  var focusOnInput = false;
   var setupTopFirst = setupUser.style.top;
   var setupLeftFirst = setupUser.style.left;
 
   var onEscapePress = function (evt) {
-    if (evt.key === window.variables.ESC_KEY && !focusOnInput) {
+    if (evt.key === window.variables.ESC_KEY && document.activeElement.name !== 'username') {
       closeSetupUser();
     }
   };
 
-  var onInputFocus = function () {
-    focusOnInput = true;
-  };
-
-  var onInputBlur = function () {
-    focusOnInput = false;
-  };
-
-
   var openSetupUser = function () {
-    setupUser.classList.remove('hidden');
-    document.addEventListener('keydown', onEscapePress);
-    setupInputUserName.addEventListener('focus', onInputFocus);
-    setupInputUserName.addEventListener('blur', onInputBlur);
-    window.setupColors.openSetupColors();
+    if (setupUser.classList.contains('hidden')) {
+      setupUser.classList.remove('hidden');
+      document.addEventListener('keydown', onEscapePress);
+      window.setupColors.open();
+    }
   };
 
   var closeSetupUser = function () {
-    setupUser.classList.add('hidden');
-    document.removeEventListener('keydown', onEscapePress);
-    setupInputUserName.removeEventListener('focus', onInputFocus);
-    setupInputUserName.removeEventListener('blur', onInputBlur);
-    window.setupColors.closeSetupColors();
-    setupUser.style.top = setupTopFirst;
-    setupUser.style.left = setupLeftFirst;
-
+    if (!setupUser.classList.contains('hidden')) {
+      setupUser.classList.add('hidden');
+      document.removeEventListener('keydown', onEscapePress);
+      window.setupColors.close();
+      setupUser.style.top = setupTopFirst;
+      setupUser.style.left = setupLeftFirst;
+    }
   };
 
   setupUserOpen.addEventListener('click', function () {
@@ -63,6 +52,26 @@
     if (evt.key === window.variables.ENTER_KEY) {
       closeSetupUser();
     }
+  });
+
+  var onLoad = function () {
+    closeSetupUser();
+  };
+
+  var onError = function (message) {
+    message = 'Ваши данные не отправлены на сервер! ' + message;
+    var errorLoad = document.createElement('div');
+    errorLoad.classList.add('error');
+    errorLoad.style = 'left: 50%; transform: translateX(-50%); bottom: 0; position: absolute; display: inline-block; width: 500px; z-index: 300; color: red; padding: 30px; text-align: center; background-color: #ffffff;';
+    errorLoad.fontSize = '30px';
+    errorLoad.textContent = message;
+    setupUser.insertAdjacentElement('beforeend', errorLoad);
+    setTimeout(window.util.eraseError, window.variables.TIMEOUT_MESSAGE);
+  };
+
+  form.addEventListener('submit', function (evtForm) {
+    evtForm.preventDefault();
+    window.backend.save(new FormData(form), onLoad, onError);
   });
 
 })();
