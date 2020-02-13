@@ -26,20 +26,20 @@
   };
 
 
-  var openSetupColors = function () {
+  var open = function () {
     setupWizardCoat.addEventListener('click', onCoatClick);
     setupWizardEyes.addEventListener('click', onEyesClick);
     setupFireballColor.addEventListener('click', onFireballClick);
   };
 
-  var closeSetupColors = function () {
+  var close = function () {
     setupWizardCoat.removeEventListener('click', onCoatClick);
     setupWizardEyes.removeEventListener('click', onEyesClick);
     setupFireballColor.removeEventListener('click', onFireballClick);
   };
 
   window.setupColors = {
-    openSetupColors: openSetupColors,
-    closeSetupColors: closeSetupColors
+    open: open,
+    close: close
   };
 })();
