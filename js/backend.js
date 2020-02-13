@@ -6,27 +6,15 @@
   };
 
   var searchError = function (cod) {
-    var message;
-    switch (cod) {
-      case 400:
-        message = 'Синтаксическая ошибка в запросе к серверу';
-        break;
-      case 401:
-        message = 'Ошибка аутентификации';
-        break;
-      case 403:
-        message = 'Ошибка ограничения доступа';
-        break;
-      case 404:
-        message = 'Ошибка адреса запроса';
-        break;
-      case 500:
-        message = 'Ошибка сервера';
-        break;
-      default:
-        message = 'Ошибка сетевого обмена, код: ' + cod;
-    }
-    return message;
+    var errors = {
+      '400': 'Синтаксическая ошибка в запросе к серверу',
+      '401': 'Ошибка аутентификации',
+      '403': 'Ошибка ограничения доступа',
+      '404': 'Ошибка адреса запроса',
+      '500': 'Ошибка сервера',
+      'default': 'Ошибка сетевого обмена, код: ' + cod
+    };
+    return errors[cod] || errors['default'];
   };
 
   var handleRequest = function (xhr, onLoad, onError) {
@@ -35,9 +23,9 @@
     var onXhrLoad = function () {
       if (xhr.status === STATUS_CODE.OK) {
         onLoad();
+        // onLoad(xhr.response);
       } else {
         onError(searchError(xhr.status));
-        // onError('Статус ошибки: ' + xhr.status + ' ' + xhr.statusText);
       }
       xhr.removeEventListener('load', onXhrLoad);
     };

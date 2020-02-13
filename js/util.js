@@ -13,7 +13,7 @@
   var eraseError = function () {
     var error = document.querySelector('.error');
     if (error) {
-      error.parentNode.removeChild(error);
+      error.remove();
     }
   };
 

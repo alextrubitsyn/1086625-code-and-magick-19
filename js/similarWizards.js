@@ -37,7 +37,7 @@
     errorLoad.fontSize = '30px';
     errorLoad.textContent = message;
     document.querySelector('header').insertAdjacentElement('beforeend', errorLoad);
-    setTimeout(window.util.eraseError, window.variables.TIMEOUT_MESSAGE);
+    setTimeout(() => errorLoad.remove(), window.variables.TIMEOUT_MESSAGE);
   };
 
   window.backend.load(onSuccess, onError);
