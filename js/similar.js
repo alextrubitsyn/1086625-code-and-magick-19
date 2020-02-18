@@ -2,7 +2,8 @@
 
 (function () {
 
-  var similarWizards = document.querySelector('.setup-similar-list');
+  var setupSimilar = document.querySelector('.setup-similar');
+  var similarWizards = setupSimilar.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var COUNT_SIMILAR_WIZARDS = 4;
 
@@ -15,19 +16,42 @@
   };
 
   var makeWizardsBlock = function (elements) {
+    similarWizards.innerHTML = '';
+    // similarWizards.children.remove();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < COUNT_SIMILAR_WIZARDS; i++) {
-      fragment.appendChild(renderWizard(window.util.getRandomElement(elements)));
+      fragment.appendChild(renderWizard(elements[i]));
     }
     similarWizards.appendChild(fragment);
   };
 
-  document.querySelector('.setup-similar').classList.remove('hidden');
-
-  var onSuccess = function (wizards) {
-    makeWizardsBlock(wizards);
+  var updateWizards = function () {
+    window.variables.wizardsRank.forEach(function (wizard) {
+      wizard.rank = 0;
+      if (wizard.colorCoat === window.variables.coatColor) {
+        wizard.rank += 2;
+      }
+      if (wizard.colorEyes === window.variables.eyesColor) {
+        wizard.rank++;
+      }
+    });
+    window.variables.wizardsRank.sort(function (a, b) {
+      return b.rank - a.rank;
+    });
+    makeWizardsBlock(window.variables.wizardsRank);
   };
 
+  var onSuccess = function (data) {
+    window.variables.wizards = data;
+    data.forEach(function (element, index) {
+      var wizard = {};
+      wizard.name = element.name;
+      wizard.colorCoat = element.colorCoat;
+      wizard.colorEyes = element.colorEyes;
+      window.variables.wizardsRank[index] = wizard;
+    });
+    updateWizards();
+  };
 
   var onError = function (message) {
     message = 'Волшебники не загрузились! ' + message;
@@ -37,9 +61,15 @@
     errorLoad.fontSize = '30px';
     errorLoad.textContent = message;
     document.querySelector('header').insertAdjacentElement('beforeend', errorLoad);
-    setTimeout(() => errorLoad.remove(), window.variables.TIMEOUT_MESSAGE);
+    setTimeout(window.util.eraseError, window.variables.TIMEOUT_MESSAGE);
   };
 
+  setupSimilar.classList.remove('hidden');
   window.backend.load(onSuccess, onError);
+
+  window.similar = {
+    makeWizardsBlock: makeWizardsBlock,
+    updateWizards: updateWizards
+  };
 
 })();

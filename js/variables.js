@@ -10,6 +10,14 @@
   var EYES_COLOR = 'eyes-color';
   var TIMEOUT = 10000;
   var TIMEOUT_MESSAGE = 5000;
+  var wizards;
+  var wizardsRank = [{}];
+  var setupWizard = document.querySelector('.setup-wizard-appearance');
+  var setupWizardCoat = setupWizard.querySelector('.wizard-coat');
+  var setupWizardEyes = setupWizard.querySelector('.wizard-eyes');
+  var setupFireballColor = document.querySelector('.setup-fireball-wrap');
+  var coatColor = setupWizardCoat.style.fill;
+  var eyesColor = setupWizardEyes.style.fill;
 
   window.variables = {
     WIZARD_COAT_COLORS: WIZARD_COAT_COLORS,
@@ -21,5 +29,13 @@
     TIMEOUT: TIMEOUT,
     TIMEOUT_MESSAGE: TIMEOUT_MESSAGE,
     EYES_COLOR: EYES_COLOR,
+    setupWizard: setupWizard,
+    setupWizardCoat: setupWizardCoat,
+    setupWizardEyes: setupWizardEyes,
+    setupFireballColor: setupFireballColor,
+    coatColor: coatColor,
+    eyesColor: eyesColor,
+    wizards: wizards,
+    wizardsRank: wizardsRank
   };
 })();
