@@ -6,14 +6,14 @@
     window.variables.coatColor = window.util.getRandomElement(window.variables.WIZARD_COAT_COLORS);
     window.variables.setupWizardCoat.style.fill = window.variables.coatColor;
     window.variables.setupWizard.querySelector('input[name = ' + window.variables.COAT_COLOR + ']').value = window.variables.coatColor;
-    window.similar.updateWizards();
+    window.debounce(window.similar.updateWizards());
   };
 
   var onEyesClick = function () {
     window.variables.eyesColor = window.util.getRandomElement(window.variables.WIZARD_EYES_COLORS);
     window.variables.setupWizardEyes.style.fill = window.variables.eyesColor;
     window.variables.setupWizard.querySelector('input[name = ' + window.variables.EYES_COLOR + ']').value = window.variables.eyesColor;
-    window.similar.updateWizards();
+    window.debounce(window.similar.updateWizards());
   };
 
   var onFireballClick = function () {

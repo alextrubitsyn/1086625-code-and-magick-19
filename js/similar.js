@@ -17,7 +17,6 @@
 
   var makeWizardsBlock = function (elements) {
     similarWizards.innerHTML = '';
-    // similarWizards.children.remove();
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < COUNT_SIMILAR_WIZARDS; i++) {
       fragment.appendChild(renderWizard(elements[i]));
