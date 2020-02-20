@@ -13,21 +13,26 @@
   var WIZARD_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-  window.variables.coatColor = setupWizardCoat.style.fill;
-  window.variables.eyesColor = setupWizardEyes.style.fill;
+  var firstCoat = setupWizardCoat.style.fill;
+  var firstEyes = setupWizardEyes.style.fill;
+
+  var wizard = {
+    onCoatChange: function () { },
+    onEyesChange: function () { }
+  };
 
   var onCoatClick = function () {
-    window.variables.coatColor = window.util.getRandomElement(WIZARD_COAT_COLORS);
-    setupWizardCoat.style.fill = window.variables.coatColor;
-    coatColorInput.value = window.variables.coatColor;
-    window.debounce(window.similar.updateWizards)();
+    var newColor = window.util.getRandomElement(WIZARD_COAT_COLORS);
+    setupWizardCoat.style.fill = newColor;
+    coatColorInput.value = newColor;
+    wizard.onCoatChange(newColor);
   };
 
   var onEyesClick = function () {
-    window.variables.eyesColor = window.util.getRandomElement(WIZARD_EYES_COLORS);
-    setupWizardEyes.style.fill = window.variables.eyesColor;
-    eyesColorInput.value = window.variables.eyesColor;
-    window.debounce(window.similar.updateWizards)();
+    var newColor = window.util.getRandomElement(WIZARD_EYES_COLORS);
+    setupWizardEyes.style.fill = newColor;
+    eyesColorInput.value = newColor;
+    wizard.onEyesChange(newColor);
   };
 
   var onFireballClick = function () {
@@ -50,6 +55,9 @@
   };
 
   window.setupColors = {
+    wizard: wizard,
+    firstCoat: firstCoat,
+    firstEyes: firstEyes,
     open: open,
     close: close
   };
