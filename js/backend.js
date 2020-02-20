@@ -22,8 +22,7 @@
 
     var onXhrLoad = function () {
       if (xhr.status === STATUS_CODE.OK) {
-        onLoad();
-        // onLoad(xhr.response);
+        onLoad(xhr.response);
       } else {
         onError(searchError(xhr.status));
       }
