@@ -10,16 +10,18 @@
     var file = fileInput.files[0];
     var fileName = file.name.toLowerCase();
 
-    var FileTypeChecking = FILE_TYPES.some(function (ext) {
+    var fileType = FILE_TYPES.some(function (ext) {
       return fileName.endsWith(ext);
     });
 
-    if (FileTypeChecking) {
+    if (fileType) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
         avatarImage.src = reader.result;
       });
     }
+    reader.readAsDataURL(file);
+
   });
 })();
